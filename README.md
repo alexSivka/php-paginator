@@ -1,7 +1,7 @@
 PHP Paginator
 =============
 
-This is a fork of [http://github.com/jasongrimes/php-paginator](http://github.com/jasongrimes/php-paginator)
+This is a clone of [http://github.com/jasongrimes/php-paginator](http://github.com/jasongrimes/php-paginator)
 
 Features added:
 - Bootstrap 4,
