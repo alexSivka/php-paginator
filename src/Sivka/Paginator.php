@@ -22,7 +22,7 @@ class Paginator
      * @param int $currentPage The current page number.
      * @param string $urlPattern A URL for each page, with (:num) as a placeholder for the page number. Ex. '/foo/page/(:num)'
      */
-    public function __construct($totalItems, $itemsPerPage, $currentPage, $urlPattern = '', $fixFirstPage = true)
+    public function __construct($totalItems, $itemsPerPage, $currentPage, $urlPattern = '?page=(:num)', $fixFirstPage = true)
     {
         $this->totalItems = $totalItems;
         $this->itemsPerPage = $itemsPerPage;
@@ -138,7 +138,13 @@ class Paginator
      */
     public function getPageUrl($pageNum)
     {
+
+        if(is_callable($this->urlPattern)){
+            return call_user_func($this->urlPattern, $pageNum);
+        }
+
 		if($this->fixFirstPage && $pageNum == 1) return str_replace([self::NUM_PLACEHOLDER, '//'], ['', '/'], $this->urlPattern);
+
         return str_replace(self::NUM_PLACEHOLDER, $pageNum, $this->urlPattern);
     }
 

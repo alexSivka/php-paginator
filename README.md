@@ -29,7 +29,51 @@ $paginator = new Paginator(
 ```
 The first page url will be '/foo/1'
 
+Also you may use a callback for generate urls 
+
+```php
+$paginator = new Paginator(
+  $totalItems, 
+  $itemsPerPage, 
+  $currentPage, 
+  function($pageNum){
+    return '/page-' . $pageNum . '/';
+  });
+```
+
+```php
+
+function getUrl($pageNum){
+  return '/page-' . $pageNum . '/';
+}
+
+$paginator = new Paginator(
+  $totalItems, 
+  $itemsPerPage, 
+  $currentPage, 
+  'getUrl');
+```
+
+```php
+
+class myClass {
+  function getUrl($pageNum){
+    return '/page-' . $pageNum . '/';
+  }
+}
+
+$obj = new myClass;
+
+$paginator = new Paginator(
+  $totalItems, 
+  $itemsPerPage, 
+  $currentPage, 
+  [$obj, 'getUrl']);
+```
+
 ---
+
+
 
 A lightweight PHP paginator, for generating pagination controls in the style of Stack Overflow and Flickr. The "first" and "last" page links are shown inline as page numbers, and excess page numbers are replaced by ellipses.
 
