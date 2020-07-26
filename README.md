@@ -6,6 +6,7 @@ This is a clone of [http://github.com/jasongrimes/php-paginator](http://github.c
 Features added:
 - Bootstrap 4,
 - fixed first page url
+- [size, position](#dimensions) 
 
 First page url is replaced by default with original url, but if the last param in constructor is false, it is generated as is.
 Example:
@@ -72,6 +73,45 @@ $paginator = new Paginator(
 ```
 
 ---
+
+## dimensions
+
+You can set size of paginator lg or sm
+
+```php
+    $paginator = new Paginator(200, 10);
+    $paginator->size('sm');
+    echo $paginator;
+```
+
+And position of paginator center or right (default left)
+
+```php
+    $paginator = new Paginator(200, 10);
+    $paginator->position('right');
+    echo $paginator;
+```
+position and size
+```php
+    $paginator = new Paginator(200, 10);
+    $paginator->dimensions($position, $size);
+    echo $paginator;
+```
+
+Or your custom css class
+
+```php
+    $paginator = new Paginator(200, 10);
+    $paginator->size('my-custom-size-class');
+    $paginator->position('my-custom-position-class');
+    echo $paginator;
+```
+
+```php
+    $paginator = new Paginator(200, 10);
+    $paginator->dimensions('my-custom-position-class', 'my-custom-size-class');
+    echo $paginator;
+```
 
 
 

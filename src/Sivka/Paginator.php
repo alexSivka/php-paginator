@@ -15,6 +15,23 @@ class Paginator
     protected $previousText = 'Previous';
 	protected $nextText = 'Next';
 	public $fixFirstPage = true;
+    protected $dimensions = [
+        'position' => '',
+        'size' => ''
+    ];
+
+    protected $css = [
+        'position' => [
+            'left' => '',
+            'center' => ' justify-content-center',
+            'right' => 'justify-content-end'
+        ],
+
+        'size' => [
+            'sm' => 'pagination-sm',
+            'lg' => 'pagination-lg'
+        ]
+    ];
 
     /**
      * @param int $totalItems The total number of items.
@@ -22,7 +39,7 @@ class Paginator
      * @param int $currentPage The current page number.
      * @param string $urlPattern A URL for each page, with (:num) as a placeholder for the page number. Ex. '/foo/page/(:num)'
      */
-    public function __construct($totalItems, $itemsPerPage, $currentPage, $urlPattern = '?page=(:num)', $fixFirstPage = true)
+    public function __construct($totalItems, $itemsPerPage, $currentPage = 1, $urlPattern = '?page=(:num)', $fixFirstPage = true)
     {
         $this->totalItems = $totalItems;
         $this->itemsPerPage = $itemsPerPage;
@@ -288,7 +305,8 @@ class Paginator
             return '';
         }
 
-        $html = '<nav aria-label="navigation"><ul class="pagination">';
+        $html = '<nav aria-label="navigation">
+        <ul ' . $this->getCss() . '>';
         if ($this->getPrevUrl()) {
 			$html .= '<li>
 						<a class="page-link" aria-label="'. $this->previousText .'" 
@@ -314,6 +332,15 @@ class Paginator
         $html .= '</ul></nav>';
 
         return $html;
+    }
+
+    protected function getCss(){
+        $classes = ['pagination'];
+        if(!empty($this->dimensions['position'])) $classes[] = isset($this->css['position'][$this->dimensions['position']]) ? 
+            $this->css['position'][$this->dimensions['position']] : $this->dimensions['position'];
+        if(!empty($this->dimensions['size'])) $classes[] = isset($this->css['size'][$this->dimensions['size']]) ? 
+            $this->css['size'][$this->dimensions['size']] : $this->dimensions['size'];
+        return 'class="'. implode(' ', $classes) .'"';
     }
 
     public function __toString()
@@ -357,5 +384,30 @@ class Paginator
     {
         $this->nextText = $text;
         return $this;
+    }
+
+    /**
+    * @param $size lg | sm
+    */
+
+    public function size($size)
+    {
+        $this->dimensions['size'] = $size;
+    }
+
+    /**
+    * @param $position center | right (default left)
+    * 
+    */
+    public function position($position)
+    {
+        $this->dimensions['position'] = $position;
+    }
+
+
+    public function dimensions($position = '', $size = '')
+    {
+        $this->position($position);
+        $this->size($size);
     }
 }
